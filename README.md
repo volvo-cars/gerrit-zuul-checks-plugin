@@ -10,6 +10,17 @@ This guide walks you through the process of setting up Gerrit with the **Checks-
 You can follow the official Zuul documentation to get started with a local setup:  
 [Zuul Quick Start Tutorial](https://zuul-ci.org/docs/zuul/latest/tutorials/quick-start.html)
 
+## Add email in Gerrit as both admin and the user you create in the Tutorial
+As administrator:
+1. Go to settings
+2. Email Addresses
+3. Add an email
+
+As created user:
+1. Go to settings
+2. Email Addresses
+3. Add an email
+
 ## Build the Plugin
 You need **Bazel** to build Gerrit and the Checks-Zuul plugin:
 
@@ -35,7 +46,7 @@ git fetch https://gerrit.avm99963.com/gerrit-checks-zuul refs/changes/66/3866/4 
 Move the **plugin directory** into the **Gerrit plugins** directory:
 
 ```bash
-mv /plugin/path gerrit/plugins
+mv /gerrit-checks-zuul gerrit/plugins/checks-zuul
 ```
 
 ## Build with Bazel
@@ -57,7 +68,7 @@ bazel-bin/plugins/checks-zuul/checks-zuul.jar
 If you are using **Docker**, you can copy the plugin into the Gerrit container:
 
 ```bash
-docker cp checks-zuul.jar <container:id>:/var/gerrit/plugins
+docker cp bazel-bin/plugins/checks-zuul/checks-zuul.jar <container:id>:/var/gerrit/plugins
 docker restart <container:id>
 ```
 
@@ -67,7 +78,11 @@ Check if the **Checks** tab appears on a change in the Gerrit UI.
 Clone your Gerrit repository:
 
 ```bash
-git clone "ssh://admin@localhost:29418/test1"
+git clone "ssh://admin@localhost:29418/All-Projects"
+```
+
+```bash
+cd All-Projects
 ```
 
 Fetch the **meta/config** reference:
