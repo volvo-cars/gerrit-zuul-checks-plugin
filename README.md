@@ -1,52 +1,107 @@
-# How to setup Gerrit with Checks-zuul plugin
+
+# How to Set Up Gerrit with the Checks-Zuul Plugin
+
+This guide walks you through the process of setting up Gerrit with the **Checks-Zuul plugin** to enable Zuul job results in Gerrit's **Checks** tab.
 
 ## Prerequisites
-1. Zuul server
-2. Gerrit server
+1. **Zuul server** up and running.
+2. **Gerrit server** up and running.
 
-Follow zuul documentation here to try it on localhost: https://zuul-ci.org/docs/zuul/latest/tutorials/quick-start.html 
+You can follow the official Zuul documentation to get started with a local setup:  
+[Zuul Quick Start Tutorial](https://zuul-ci.org/docs/zuul/latest/tutorials/quick-start.html)
 
-## Build the plugin
-You need bazel to build Gerrit and this plugin:
+## Build the Plugin
+You need **Bazel** to build Gerrit and the Checks-Zuul plugin:
 
-This plugin cannot be built by itself. It needs to be part of the Gerrit source tree. First clone Gerrit along with it's submodules:
+The plugin cannot be built independently. It needs to be part of the Gerrit source tree. First, clone Gerrit along with its submodules:
 
+```bash
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
+```
 
-Clone the checks-zuul plugin in another directory.
+Next, clone the **Checks-Zuul plugin** in another directory:
+
+```bash
 git clone https://gerrit.avm99963.com/gerrit-checks-zuul
+```
 
+Then, fetch the latest changes for the plugin:
+
+```bash
 git fetch https://gerrit.avm99963.com/gerrit-checks-zuul refs/changes/66/3866/4 && git checkout FETCH_HEAD
+```
 
-## Move the plugin directory to gerrit plugins directory
-mv /plugin/path to gerrit/plugins
+## Move the Plugin Directory to Gerrit’s Plugin Directory
+Move the **plugin directory** into the **Gerrit plugins** directory:
 
-## Build with bazel
+```bash
+mv /plugin/path gerrit/plugins
+```
+
+## Build with Bazel
+Now, build the plugin using **Bazel**:
+
+```bash
 cd gerrit
 bazel clean --expunge
 bazel build plugins/checks-zuul
+```
 
-You find the plugin output here: bazel-bin/plugins/checks-zuul/checks-zuul.jar
+The plugin output will be found here:
 
-## Place the checks-zuul.jar plugin into your gerrit server / docker container (we used docker container)
+```bash
+bazel-bin/plugins/checks-zuul/checks-zuul.jar
+```
+
+## Place the checks-zuul.jar Plugin into Your Gerrit Server or Docker Container
+If you are using **Docker**, you can copy the plugin into the Gerrit container:
+
+```bash
 docker cp checks-zuul.jar <container:id>:/var/gerrit/plugins
 docker restart <container:id>
-check if the checks tab shows up on a change in the gerrit UI
+```
 
-## Clone your gerrit repository and add .config file
+Check if the **Checks** tab appears on a change in the Gerrit UI.
+
+## Clone Your Gerrit Repository and Add the `.config` File
+Clone your Gerrit repository:
+
+```bash
 git clone "ssh://admin@localhost:29418/test1"
+```
 
+Fetch the **meta/config** reference:
+
+```bash
 git fetch origin refs/meta/config:refs/remotes/origin/meta/config
+```
 
+Check out the **meta/config** reference:
+
+```bash
 git checkout origin/meta/config
+```
 
+Edit the **checks-zuul.config** file:
+
+```bash
 nano checks-zuul.config
+```
 
+Add the following configuration to the file:
+
+```ini
 [zuul "zuul"]
   url = "http://localhost:9000"
   tenant = "example-tenant"
+```
 
+Commit and push the changes to Gerrit:
 
- git add checks-zuul.config 
- git commit -m "Added checks-zuul config"
- git push origin HEAD:refs/meta/config
+```bash
+git add checks-zuul.config
+git commit -m "Added checks-zuul config"
+git push origin HEAD:refs/meta/config
+```
+
+---
