@@ -125,7 +125,7 @@ export class ChecksFetcher {
 
         const statusLink = build.uuid
           ? result === 'SUCCESS' || result === 'FAILURE'
-            ? `${buildLinkBase}/build/${build.uuid}/log/job-output.txt`
+            ? `${buildLinkBase}/build/${build.uuid}`
             : `${buildLinkBase}/stream/${build.uuid}/?logfile=console.log`
           : '';
 
