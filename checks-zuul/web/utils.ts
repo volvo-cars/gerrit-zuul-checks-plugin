@@ -1,4 +1,5 @@
 import {CheckRun, RunStatus} from '@gerritcodereview/typescript-api/checks';
+
 export function sortCheckRuns(checkRuns: CheckRun[]) {
   return checkRuns.sort((a: CheckRun, b: CheckRun) => {
     if (a.status !== RunStatus.COMPLETED || b.status !== RunStatus.COMPLETED) {
@@ -21,6 +22,7 @@ export function sortCheckRuns(checkRuns: CheckRun[]) {
     }
   });
 }
+
 function compareDates(
   a: Date | undefined,
   b: Date | undefined,
@@ -40,6 +42,7 @@ function compareDates(
     return 0;
   }
 }
+
 function getStatusOrder(status: RunStatus): number {
   switch (status) {
     case RunStatus.RUNNABLE:
