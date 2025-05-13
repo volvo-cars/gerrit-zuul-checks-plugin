@@ -9,6 +9,6 @@ public class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     DynamicSet.bind(binder(), WebUiPlugin.class)
-        .toInstance(new JavaScriptPlugin("checks-zuul.js"));
+        .toInstance(new JavaScriptPlugin("gerrit-zuul-checks-plugin.js"));
   }
 }
