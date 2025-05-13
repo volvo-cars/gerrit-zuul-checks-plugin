@@ -24,8 +24,7 @@ export class ChecksFetcher {
   }
 
   async fetchCheckRuns(changeData: ChangeData): Promise<CheckRun[]> {
-    const zuulRuns = await this.fetchLiveZuulCheckRuns(changeData);
-    const checkRuns = [...zuulRuns];
+    const checkRuns = await this.fetchLiveZuulCheckRuns(changeData);
     this.addAttemptNumbers(checkRuns);
     return checkRuns;
   }
@@ -79,8 +78,7 @@ export class ChecksFetcher {
   private async fetchLiveZuulCheckRuns(changeData: ChangeData): Promise<CheckRun[]> {
     const patchset = changeData.patchsetNumber;
     const changeNumber = changeData.changeNumber;
-
-    const changeId = `${changeData.changeNumber}`;
+    const changeId = changeData.changeNumber;
     const changeDetail = await this.plugin.restApi().get(`/changes/${changeId}/detail`) as any;
     const messages = changeDetail.messages || [];
 
