@@ -1,11 +1,10 @@
 load("//tools/js:eslint.bzl", "plugin_eslint")
 load("//tools/bzl:js.bzl", "gerrit_js_bundle")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
-package_group(
-    name = "visibility",
-    packages = ["//plugins/checks-zuul/..."],
-)
-package(default_visibility = [":visibility"])
+
+# Gör synlig för hela projektet, eller begränsa om du vill
+package(default_visibility = ["//visibility:public"])
+
 ts_config(
     name = "tsconfig",
     src = "tsconfig.json",
@@ -13,8 +12,9 @@ ts_config(
         "//plugins:tsconfig-plugins-base.json",
     ],
 )
+
 ts_project(
-    name = "checks-zuul-ts",
+    name = "gerrit-zuul-checks-plugin-ts",
     srcs = glob(
         ["**/*.ts"],
         exclude = ["**/*test*"],
@@ -28,9 +28,11 @@ ts_project(
         "@plugins_npm//lit",
     ],
 )
+
 gerrit_js_bundle(
-    name = "checks-zuul",
-    srcs = [":checks-zuul-ts"],
+    name = "gerrit-zuul-checks-plugin",
+    srcs = [":gerrit-zuul-checks-plugin-ts"],
     entry_point = "_bazel_ts_out/plugin.js",
 )
+
 plugin_eslint()
