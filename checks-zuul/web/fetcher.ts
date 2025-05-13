@@ -11,8 +11,8 @@ function extractZuulInfoFromComment(comment: string): { baseUrl: string, tenant:
 
   if (!match) return null;
 
-  const baseUrl = match[1];   // e.g. "http://localhost:9000"
-  const tenant = match[2];    // e.g. "example-tenant"
+  const baseUrl = match[1];   
+  const tenant = match[2];    
 
   return { baseUrl, tenant };
 }
@@ -139,7 +139,7 @@ export class ChecksFetcher {
         }
 
         const checkRun: CheckRun = {
-          checkName: `${build.job_name}/${build.pipeline}`,
+          checkName: `${build.pipeline}/${build.job_name}`,
           status: status as any,
           statusLink: statusLink,
           statusDescription: result,
