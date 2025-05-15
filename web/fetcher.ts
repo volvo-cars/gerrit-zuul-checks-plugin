@@ -1,20 +1,25 @@
 import {
+  Category,
   ChangeData,
   CheckRun,
+  RunStatus,
 } from '@gerritcodereview/typescript-api/checks';
-import { sortCheckRuns } from './utils';
-import { PluginApi } from '@gerritcodereview/typescript-api/plugin';
+import {sortCheckRuns} from './utils';
+import {PluginApi} from '@gerritcodereview/typescript-api/plugin';
+import {ChangeInfo} from '@gerritcodereview/typescript-api/rest-api';
 
-function extractZuulInfoFromComment(comment: string): { baseUrl: string, tenant: string } | null {
+function extractZuulInfoFromComment(
+  comment: string
+): {baseUrl: string; tenant: string} | null {
   const regex = /(http:\/\/[^/]+)\/t\/([^/]+)\/status\/change\/\d+,\d+/;
   const match = comment.match(regex);
 
   if (!match) return null;
 
-  const baseUrl = match[1];   
-  const tenant = match[2];    
+  const baseUrl = match[1];
+  const tenant = match[2];
 
-  return { baseUrl, tenant };
+  return {baseUrl, tenant};
 }
 export class ChecksFetcher {
   private plugin: PluginApi;
@@ -42,7 +47,9 @@ export class ChecksFetcher {
     return checkRuns;
   }
 
-  private async fetchFailureDetails(logUrl: string): Promise<{ msg: string, cmd: string[], stdout: string } | null> {
+  private async fetchFailureDetails(
+    logUrl: string
+  ): Promise<{msg: string; cmd: string[]; stdout: string} | null> {
     const fullLogUrl = `${logUrl}job-output.json`;
 
     try {
@@ -55,7 +62,7 @@ export class ChecksFetcher {
             const hosts = task.hosts;
             if (!hosts) continue;
 
-            for (const hostName in hosts) {
+            for (const hostName of Object.keys(hosts)) {
               const host = hosts[hostName];
               if (host.failed) {
                 return {
@@ -75,11 +82,15 @@ export class ChecksFetcher {
     return null;
   }
 
-  private async fetchLiveZuulCheckRuns(changeData: ChangeData): Promise<CheckRun[]> {
+  private async fetchLiveZuulCheckRuns(
+    changeData: ChangeData
+  ): Promise<CheckRun[]> {
     const patchset = changeData.patchsetNumber;
     const changeNumber = changeData.changeNumber;
     const changeId = changeData.changeNumber;
-    const changeDetail = await this.plugin.restApi().get(`/changes/${changeId}/detail`) as any;
+    const changeDetail = (await this.plugin
+      .restApi()
+      .get(`/changes/${changeId}/detail`)) as ChangeInfo;
     const messages = changeDetail.messages || [];
 
     let baseUrl = '';
@@ -95,7 +106,9 @@ export class ChecksFetcher {
     }
 
     if (!baseUrl || !tenant) {
-      console.warn('[ZuulChecks] Could not extract Zuul baseUrl or tenant from comments');
+      console.warn(
+        '[ZuulChecks] Could not extract Zuul baseUrl or tenant from comments'
+      );
       return [];
     }
 
@@ -117,9 +130,13 @@ export class ChecksFetcher {
 
         const result = build.result || 'RUNNING';
         const category =
-          result === 'SUCCESS' ? 'SUCCESS' :
-          result === 'FAILURE' || result === 'ERROR' ? 'ERROR' :
-          status === 'SCHEDULED' ? 'INFO' : 'INFO';
+          result === 'SUCCESS'
+            ? 'SUCCESS'
+            : result === 'FAILURE' || result === 'ERROR'
+            ? 'ERROR'
+            : status === 'SCHEDULED'
+            ? 'INFO'
+            : 'INFO';
 
         const statusLink = build.uuid
           ? result === 'SUCCESS' || result === 'FAILURE'
@@ -127,29 +144,36 @@ export class ChecksFetcher {
             : `${buildLinkBase}/stream/${build.uuid}/?logfile=console.log`
           : '';
 
-        let errorMessage = ``;
+        let errorMessage = '';
         if (result === 'FAILURE') {
           const failureDetails = await this.fetchFailureDetails(build.log_url);
           if (failureDetails) {
-            console.log('[ZuulChecks] Failure details:', failureDetails); 
-            errorMessage += `Msg: ${failureDetails.msg}\n\nCmd: ${failureDetails.cmd.join(' ')}\n\nStdout: ${failureDetails.stdout}`;
+            errorMessage += `Msg: ${
+              failureDetails.msg
+            }\n\nCmd: ${failureDetails.cmd.join(' ')}\n\nStdout: ${
+              failureDetails.stdout
+            }`;
           }
         }
 
         const checkRun: CheckRun = {
           checkName: `${build.pipeline}/${build.job_name}`,
-          status: status as any,
-          statusLink: statusLink,
+          status: status as RunStatus,
+          statusLink,
           statusDescription: result,
           results: [
             {
               summary: `${result}`,
               message: errorMessage,
-              category: category as any,
+              category: category as Category,
             },
           ],
-          startedTimestamp: build.start_time ? new Date(build.start_time + 'Z') : undefined,
-          finishedTimestamp: build.end_time ? new Date(build.end_time + 'Z') : undefined,
+          startedTimestamp: build.start_time
+            ? new Date(`${build.start_time}` + 'Z')
+            : undefined,
+          finishedTimestamp: build.end_time
+            ? new Date(`${build.end_time}` + 'Z')
+            : undefined,
         };
 
         checkRuns.push(checkRun);
