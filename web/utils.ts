@@ -28,7 +28,7 @@ function compareDates(
   b: Date | undefined,
   nullIsInf: boolean
 ) {
-  if (!a || !b) {
+  if (!a && !b) {
     return 0;
   } else if (!a) {
     return nullIsInf ? 1 : -1;
