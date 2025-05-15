@@ -5,4 +5,4 @@ lint_test:
 lint_fix:
 	$(SAFEBAZEL) run :lint_bin -- --fix "./"
 build:
-	$(SAFEBAZEL) build //plugins/checks-zuul/web:checks-zuul
+	$(SAFEBAZEL) build //plugins/gerrit-zuul-checks-plugin/web:gerrit-zuul-checks-plugin
