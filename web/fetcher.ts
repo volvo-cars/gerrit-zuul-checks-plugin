@@ -65,9 +65,12 @@ export class ChecksFetcher {
             for (const hostName of Object.keys(hosts)) {
               const host = hosts[hostName];
               if (host.failed) {
+                const cmdArray = Array.isArray(host.cmd)
+                  ? host.cmd
+                  : [host.cmd || ''];
                 return {
                   msg: host.msg || 'No message',
-                  cmd: host.cmd || [],
+                  cmd: cmdArray,
                   stdout: host.stdout_lines?.join('\n') || 'No output',
                 };
               }
@@ -148,11 +151,9 @@ export class ChecksFetcher {
         if (result === 'FAILURE') {
           const failureDetails = await this.fetchFailureDetails(build.log_url);
           if (failureDetails) {
-            errorMessage += `Msg: ${
-              failureDetails.msg
-            }\n\nCmd: ${failureDetails.cmd.join(' ')}\n\nStdout: ${
-              failureDetails.stdout
-            }`;
+            const cmd = failureDetails.cmd;
+            const cmdStr = Array.isArray(cmd) ? cmd.join(' ') : String(cmd);
+            errorMessage += `Msg: ${failureDetails.msg}\n\nCmd: ${cmdStr}\n\nStdout: ${failureDetails.stdout}`;
           }
         }
 
