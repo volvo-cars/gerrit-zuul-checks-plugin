@@ -1,4 +1,4 @@
-__plugindir = 'checks-zuul/web';
+__plugindir = 'gerrit-zuul-checks-plugin/web';
 module.exports = {
   extends: '../../.eslintrc.js',
   rules: {
