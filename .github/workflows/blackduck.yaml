@@ -4,26 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  blackduck-scan:
-    runs-on: ubuntu-latest
-    env:
-      DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
-      DETECT_PROJECT_VERSION_NAME: ${{ github.sha }}
-
+  build:
+    runs-on:
+      - ubuntu-latest
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
-
-      - name: Run Black Duck SCA scan
+      - name: Black Duck SCA scan
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
+
+        env:
+          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+
         with:
           blackducksca_url: https://apus-blackduck.volvocars.biz
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
-          detect_search_depth: 3
-          detect_args: >
-            --detect.report.notice=true
-            --detect.report.pdf=true
-            --detect.accuracy.required=ALL
-            --detect.timeout=3000
-            --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
-            --detect.blackduck.signature.scanner.copyright.search=true
+          detect_search_depth: 10
+          detect_args: '--detect.blackduck.signature.scanner.copyright.search=true --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING --detect.timeout=3000 --detect.accuracy.required=NONE'    
+
