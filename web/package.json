@@ -1,8 +1,0 @@
-{
-  "name": "gerrit-zuul-checks-plugin",
-  "description": "Checks-zuul plugin",
-  "browser": true,
-  "devDependencies": {},
-  "license": "Apache-2.0",
-  "private": true
-}
