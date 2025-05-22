@@ -23,7 +23,7 @@ jobs:
           detect_args: >
             --detect.report.notice=true
             --detect.report.pdf=true
-            --detect.accuracy.required=HIGH
+            --detect.accuracy.required=ALL
             --detect.timeout=3000
             --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
             --detect.blackduck.signature.scanner.copyright.search=true
