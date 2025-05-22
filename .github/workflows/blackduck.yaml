@@ -21,3 +21,4 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: '--detect.blackduck.signature.scanner.copyright.search=true --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING --detect.timeout=3000 --detect.accuracy.required=NONE'    
+
