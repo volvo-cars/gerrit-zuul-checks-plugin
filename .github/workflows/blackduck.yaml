@@ -10,14 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Node.js (latest LTS) with nvm
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-          source ~/.nvm/nvm.sh
-          nvm install --lts
-          node -v
-          npm -v
-
       - name: Install npm dependencies
         working-directory: web
         run: npm install

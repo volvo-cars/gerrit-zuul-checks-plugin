@@ -4,8 +4,8 @@
   "description": "Gerrit Zuul Checks Plugin",
   "license": "Apache-2.0",
   "dependencies": {
-    "lit": "^3.1.0",
-    "@gerritcodereview/typescript-api": "^3.9.0"
+    "lit": "^3.3.0",
+    "@gerritcodereview/typescript-api": "^3.12.0"
   },
   "devDependencies": {}
 }
