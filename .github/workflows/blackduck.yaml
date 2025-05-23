@@ -18,6 +18,9 @@ jobs:
           node -v
           npm -v
 
+      - name: Install npm dependencies
+        working-directory: web
+        run: npm install
 
       - name: Run Black Duck scan
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
