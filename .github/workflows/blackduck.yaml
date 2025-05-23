@@ -10,8 +10,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Node dependencies
-        working-directory: ./web
+      - name: Install npm dependencies
+        working-directory: web
         run: npm install
 
       - name: Run Black Duck scan
@@ -32,13 +32,3 @@ jobs:
             --detect.bazel.enabled=true
             --detect.project.version.name=main
 
-      - name: Copy notice report
-        run: |
-          mkdir -p reports
-          cp /github/workspace/blackduck/reports/notice.txt reports/NOTICE.generated.txt
-
-      - name: Upload NOTICE as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: notice-report
-          path: reports/NOTICE.generated.txt
