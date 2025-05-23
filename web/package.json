@@ -1,7 +1,7 @@
 {
-  "name": "gerrit-zuul-checks-plugin",
+  "name": "checks-zuul",
   "version": "0.0.1",
-  "description": "Gerrit Zuul Checks Plugin",
+  "description": "Checks-Zuul plugin",
   "license": "Apache-2.0",
   "dependencies": {
     "lit": "^3.3.0",

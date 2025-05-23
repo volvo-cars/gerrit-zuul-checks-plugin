@@ -13,7 +13,7 @@ ts_config(
 )
 
 ts_project(
-    name = "gerrit-zuul-checks-plugin-ts",
+    name = "checks-zuul-ts",
     srcs = glob(
         ["**/*.ts"],
         exclude = ["**/__tests__/**"],
@@ -29,8 +29,8 @@ ts_project(
 )
 
 gerrit_js_bundle(
-    name = "gerrit-zuul-checks-plugin",
-    srcs = [":gerrit-zuul-checks-plugin-ts"],
+    name = "checks-zuul",
+    srcs = [":checks-zuul-ts"],
     entry_point = "_bazel_ts_out/plugin.js",
 )
 
