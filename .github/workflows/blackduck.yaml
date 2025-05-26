@@ -10,9 +10,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up JDK for Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
       - name: Install npm dependencies
         working-directory: web
         run: npm install
+
+      - name: Resolve Maven dependencies
+        run: mvn dependency:resolve
 
       - name: Run Black Duck scan
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
@@ -23,11 +32,12 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: >-
+            --detect.tools=MAVEN,NPM,SIGNATURE_SCAN
+            --detect.maven.build.command=dependency:resolve
             --detect.blackduck.signature.scanner.copyright.search=true
             --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
             --detect.timeout=3000
             --detect.accuracy.required=NONE
-            --detect.tools=SIGNATURE_SCAN,DETECTOR
             --detect.npm.include.dev.dependencies=true
             --detect.bazel.enabled=true
             --detect.project.version.name=main
