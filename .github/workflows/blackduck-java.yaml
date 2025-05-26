@@ -39,5 +39,4 @@ jobs:
             --detect.maven.build.command=dependency:resolve
             --detect.project.version.name=java-scan
             --detect.timeout=3000
-            --detect.force.success=true
             --logging.level.com.synopsys.integration=DEBUG
