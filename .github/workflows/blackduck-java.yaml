@@ -29,7 +29,7 @@ jobs:
       - name: Run Black Duck scan for Java
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
         env:
-          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}-java
+          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
         with:
           blackducksca_url: https://apus-blackduck.volvocars.biz
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
