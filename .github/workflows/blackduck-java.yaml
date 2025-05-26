@@ -35,7 +35,9 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: >-
-            --detect.tools=MAVEN
+            --detect.tools=DETECTOR
             --detect.maven.build.command=dependency:resolve
             --detect.project.version.name=java-scan
             --detect.timeout=3000
+            --detect.force.success=true
+            --logging.level.com.synopsys.integration=DEBUG
