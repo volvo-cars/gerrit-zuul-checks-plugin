@@ -37,7 +37,7 @@ jobs:
           detect_args: >-
             --detect.tools=DETECTOR
             --detect.maven.build.command=dependency:resolve
-            --detect.project.version.name=java-scan
+            --detect.project.version.name=main
             --detect.accuracy.required=NONE
             --detect.timeout=3000
             --logging.level.com.synopsys.integration=DEBUG
