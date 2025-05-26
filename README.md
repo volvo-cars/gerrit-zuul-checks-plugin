@@ -43,7 +43,9 @@ bazel run //plugins/gerrit-zuul-checks-plugin/web:lint_bin -- --fix "./"
 # Build with Maven for Java dependencies
 
 From project root, run:
+```bash
 mvn clean package 
+```
 
 # Known Issue
 
