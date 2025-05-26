@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.avm99963.gerrit.plugins</groupId>
+  <artifactId>gerrit-zuul-checks-plugin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Gerrit Zuul Checks Plugin</name>
+
+  <properties>
+    <gerrit.version>3.11.1</gerrit.version>
+    <java.version>11</java.version>
+  </properties>
+
+  <dependencies>
+    <!-- Gerrit core plugin API -->
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-plugin-api</artifactId>
+      <version>${gerrit.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- JGit (Project configuration) -->
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>6.5.0.202303070854-r</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Gson (JSON) -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+
+    <!-- Guice (Gerrit) -->
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>5.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Compiler plugin -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Package plugin as Gerrit plugin jar -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
