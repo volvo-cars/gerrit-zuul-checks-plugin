@@ -21,8 +21,17 @@ jobs:
         working-directory: web
         run: npm install
 
-      - name: Resolve Maven dependencies
-        run: mvn dependency:resolve
+      - name: Check that pom.xml exists
+        run: ls -l pom.xml
+
+      - name: Debug Maven effective POM
+        run: mvn help:effective-pom
+
+      - name: Resolve Maven dependencies and list them
+        run: |
+          mvn dependency:resolve
+          mvn dependency:list -DincludeScope=compile -DoutputFile=dependencies.txt
+          cat dependencies.txt
 
       - name: Run Black Duck scan
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
