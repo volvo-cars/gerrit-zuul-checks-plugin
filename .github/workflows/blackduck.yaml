@@ -6,32 +6,13 @@ on:
 jobs:
   blackduck:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK for Maven
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-
       - name: Install npm dependencies
         working-directory: web
         run: npm install
-
-      - name: Check that pom.xml exists
-        run: ls -l pom.xml
-
-      - name: Debug Maven effective POM
-        run: mvn help:effective-pom
-
-      - name: Resolve Maven dependencies and list them
-        run: |
-          mvn dependency:resolve
-          mvn dependency:list -DincludeScope=compile -DoutputFile=dependencies.txt
-          cat dependencies.txt
 
       - name: Run Black Duck scan
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
@@ -42,8 +23,12 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: >-
-            --detect.tools=MAVEN,NPM
-            --detect.maven.build.command=dependency:resolve
-            --detect.npm.include.dev.dependencies=true
-            --detect.project.version.name=main
+            --detect.blackduck.signature.scanner.copyright.search=true
+            --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
             --detect.timeout=3000
+            --detect.accuracy.required=NONE
+            --detect.tools=SIGNATURE_SCAN,DETECTOR
+            --detect.npm.include.dev.dependencies=true
+            --detect.bazel.enabled=true
+            --detect.project.version.name=main
+
