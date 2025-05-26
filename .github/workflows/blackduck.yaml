@@ -6,6 +6,7 @@ on:
 jobs:
   blackduck:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -37,7 +38,3 @@ jobs:
             --detect.npm.include.dev.dependencies=true
             --detect.project.version.name=main
             --detect.timeout=3000
-            --detect.blackduck.signature.scanner.copyright.search=true
-            --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
-            --detect.accuracy.required=NONE
-            --detect.bazel.enabled=true
