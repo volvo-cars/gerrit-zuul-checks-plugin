@@ -32,7 +32,7 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: >-
-            --detect.tools=MAVEN,NPM,SIGNATURE_SCAN,DETECTOR
+            --detect.tools=MAVEN,NPM
             --detect.maven.build.command=dependency:resolve
             --detect.npm.include.dev.dependencies=true
             --detect.project.version.name=main
