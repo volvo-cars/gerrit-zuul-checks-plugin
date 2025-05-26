@@ -40,3 +40,19 @@ bazel test //plugins/checks-zuul/web:lint_test
 cd gerrit
 bazel run //plugins/checks-zuul/web:lint_bin -- --fix "./"
 ```
+
+
+# Build with Maven for Java dependencies
+
+From project root, run:
+```bash
+mvn clean package 
+```
+
+# Known Issue
+
+This plugin currently supports Gerrit **3.11.1 and older** only.  
+Gerrit changed the `.eslintrc.js` structure in later versions, which breaks compatibility.
+
+For more information:
+https://gerrit.googlesource.com/gerrit/+/0e0f36d14af960cc847d9c3fe1acbb9f9dfd8856%5E1..0e0f36d14af960cc847d9c3fe1acbb9f9dfd8856/
