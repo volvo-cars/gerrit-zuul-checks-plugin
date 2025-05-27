@@ -1,11 +1,11 @@
 {
   "name": "checks-zuul",
-  "version": "0.0.1",
-  "description": "Checks-Zuul plugin",
+  "version": "0.1.0",
+  "description": "To make BlackDuck scan possible",
   "license": "Apache-2.0",
   "dependencies": {
     "lit": "^3.3.0",
-    "@gerritcodereview/typescript-api": "^3.12.0"
+    "@gerritcodereview/typescript-api": "^3.11.1"
   },
   "devDependencies": {}
 }

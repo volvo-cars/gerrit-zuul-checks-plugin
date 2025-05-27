@@ -1,11 +1,12 @@
-name: Black Duck scan
+name: Black Duck full scan
 
 on:
   workflow_dispatch:
 
 jobs:
-  blackduck:
+  blackduck-combined:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -14,7 +15,13 @@ jobs:
         working-directory: web
         run: npm install
 
-      - name: Run Black Duck scan
+      - name: Set up JDK for Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Run Black Duck scan for full repo (Java + Node)
         uses: blackduck-inc/black-duck-security-scan@v2.1.1
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
@@ -23,12 +30,12 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
           detect_search_depth: 10
           detect_args: >-
-            --detect.blackduck.signature.scanner.copyright.search=true
-            --detect.blackduck.signature.scanner.snippet.matching=SNIPPET_MATCHING
-            --detect.timeout=3000
-            --detect.accuracy.required=NONE
-            --detect.tools=SIGNATURE_SCAN,DETECTOR
+            --detect.tools=DETECTOR
+            --detect.maven.build.command=dependency:resolve
             --detect.npm.include.dev.dependencies=true
+            --detect.detector.search.continue=true
             --detect.bazel.enabled=true
-            --detect.project.version.name=main
-
+            --detect.accuracy.required=NONE
+            --detect.timeout=3000
+            --detect.code.location.delete=true
+            --detect.project.version.name=v0.3.0
