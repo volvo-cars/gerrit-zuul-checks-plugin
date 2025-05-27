@@ -38,4 +38,4 @@ jobs:
             --detect.accuracy.required=NONE
             --detect.timeout=3000
             --detect.code.location.delete=true
-            --detect.project.version.name=v0.3.0
+            --detect.project.version.name=v0.1.0
