@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.avm99963.gerrit.plugins</groupId>
-  <artifactId>gerrit-zuul-checks-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>checks-zuul</artifactId>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
-  <name>Gerrit Zuul Checks Plugin</name>
+  <name>checks-zuul</name>
 
   <properties>
     <gerrit.version>3.11.1</gerrit.version>
