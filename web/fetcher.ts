@@ -11,7 +11,7 @@ import {ChangeInfo} from '@gerritcodereview/typescript-api/rest-api';
 function extractZuulInfoFromComment(
   comment: string
 ): {baseUrl: string; tenant: string} | null {
-  const regex = /(http:\/\/[^/]+)\/t\/([^/]+)\/status\/change\/\d+,\d+/;
+  const regex = /(https?:\/\/[^/]+)\/t\/([^/]+)\/status\/change\/\d+,\d+/;
   const match = comment.match(regex);
 
   if (!match) return null;
