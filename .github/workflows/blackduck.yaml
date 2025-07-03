@@ -22,7 +22,8 @@ jobs:
           java-version: '11'
 
       - name: Run Black Duck scan for full repo (Java + Node)
-        uses: blackduck-inc/black-duck-security-scan@v2.1.1
+        uses: blackduck-inc/black-duck-security-scan@6ee400ee2502a366bdff13cddae76bbde804fd20 # v2.1.1
+
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
         with:
